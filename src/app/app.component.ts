@@ -10,21 +10,68 @@ export class AppComponent implements OnInit {
   title = 'zdog';
 
   ngOnInit() {
-    let illo = new Zdog.Illustration({
+    const illo = new Zdog.Illustration({
       // set canvas with selector
       element: '.zdog-canvas',
       dragRotate: true,
     });
 
-    const rotation = new Zdog.Vector({ x: Zdog.TAU / 4, z: Zdog.TAU / 4 });
-
-    const cone1 = new Zdog.Cone({
+    const prism = new Zdog.Group({
       addTo: illo,
-      diameter: 40 * Math.sqrt(2),
-      length: 40,
+    });
+
+    const triangleFront = new Zdog.Shape({
+      addTo: prism,
+      stroke: false,
+      fill: true,
       color: '#062970',
-      backface: '#fff',
-      rotate: rotation,
+      path: [{ x: 40 }, { y: 40 }, { x: 0 }],
+      translate: { z: 20 },
+    });
+
+    const triangleBack = triangleFront.copy({
+      translate: { z: -20 },
+      color: '#062970',
+      addTo: prism,
+    });
+
+    const triangleTop = new Zdog.Shape({
+      addTo: prism,
+      stroke: false,
+      fill: true,
+      color: '#f0f',
+      path: [
+        { x: 0, y: 0, z: -20 },
+        { x: 0, y: 0, z: 20 },
+        { x: 40, y: 0, z: 20 },
+        { x: 40, y: 0, z: -20 },
+      ],
+    });
+
+    const triangleLeft = new Zdog.Shape({
+      addTo: prism,
+      stroke: false,
+      fill: true,
+      color: '#007bff',
+      path: [
+        { x: 0, y: 0, z: -20 },
+        { x: 0, y: 0, z: 20 },
+        { x: 0, y: 40, z: 20 },
+        { x: 0, y: 40, z: -20 },
+      ],
+    });
+
+    const triangleRight = new Zdog.Shape({
+      addTo: prism,
+      stroke: false,
+      fill: true,
+      color: '#04da13',
+      path: [
+        { x: 40, y: 0, z: -20 },
+        { x: 40, y: 0, z: 20 },
+        { x: 0, y: 40, z: 20 },
+        { x: 0, y: 40, z: -20 },
+      ],
     });
 
     // const triangle2 = new Zdog.Shape({
@@ -95,9 +142,6 @@ export class AppComponent implements OnInit {
       let progress = ticker / cycleCount;
       // apply easing to rotation
       let tween = Zdog.easeInOut(progress % 1, 3);
-      cone1.rotate.y = tween * Zdog.TAU;
-      // triangle2.rotate.z = (tween * Zdog.TAU) / 2;
-      // triangle2.rotate.x = (tween * Zdog.TAU) / 2;
       box1.rotate.y = (tween * Zdog.TAU) / 2;
       cylinder.rotate.x = (tween * Zdog.TAU) / 2;
       box2.rotate.y = (tween * Zdog.TAU) / 2;

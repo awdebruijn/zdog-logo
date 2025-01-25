@@ -86,20 +86,50 @@ export class AppComponent implements OnInit {
       rightFace: '#ebf0ff',
     });
 
+    let rounds = 0;
+    function update(progress: number) {
+      const tween = Zdog.easeInOut(progress % 1, 3);
+
+      if (rounds === 1) {
+        prism1.group.rotate.x = tween * Zdog.TAU;
+        prism2.group.rotate.z = tween * Zdog.TAU;
+        box1.rotate.z = (tween * -Zdog.TAU) / 2;
+        //cylinder.rotate.x = (tween * -Zdog.TAU) / 2;
+        box2.rotate.x = (tween * Zdog.TAU) / 2;
+        box3.rotate.z = (tween * Zdog.TAU) / 2;
+      } else if (rounds === 2) {
+        prism1.group.rotate.z = tween * Zdog.TAU;
+        prism2.group.rotate.y = tween * Zdog.TAU;
+        box1.rotate.x = (tween * Zdog.TAU) / 2;
+        cylinder.rotate.y = (tween * Zdog.TAU) / 2;
+        //box2.rotate.y = (tween * Zdog.TAU) / 2;
+        box3.rotate.z = (tween * Zdog.TAU) / 2;
+      } else {
+        prism1.group.rotate.y = tween * Zdog.TAU;
+        //prism2.group.rotate.x = tween * Zdog.TAU;
+        box1.rotate.y = (tween * Zdog.TAU) / 2;
+        cylinder.rotate.y = (tween * -Zdog.TAU) / 2;
+        box2.rotate.z = (tween * -Zdog.TAU) / 2;
+        //box3.rotate.x = (tween * Zdog.TAU) / 2;
+      }
+
+      const isWholeNumber = Math.floor((progress * 100) % 100) === 0;
+
+      if (rounds === 3 && isWholeNumber) {
+        rounds = 0;
+      }
+
+      if (isWholeNumber) {
+        rounds++;
+      }
+    }
+
     let ticker = 0;
-    let cycleCount = 150;
-    //illo.updateRenderGraph();
+    let cycleCount = 100;
 
     function animate() {
       let progress = ticker / cycleCount;
-      // apply easing to rotation
-      let tween = Zdog.easeInOut(progress % 1, 3);
-      prism1.group.rotate.x = tween * Zdog.TAU;
-      prism2.group.rotate.y = tween * Zdog.TAU;
-      box1.rotate.z = (tween * -Zdog.TAU) / 2;
-      cylinder.rotate.y = (tween * -Zdog.TAU) / 2;
-      box2.rotate.x = (tween * Zdog.TAU) / 2;
-      box3.rotate.z = (tween * Zdog.TAU) / 2;
+      update(progress);
       ticker++;
 
       illo.updateRenderGraph();

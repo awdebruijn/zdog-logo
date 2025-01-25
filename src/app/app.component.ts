@@ -17,17 +17,16 @@ export class AppComponent implements OnInit {
       dragRotate: true,
     });
 
-    const anchor = new Zdog.Anchor({
-      addTo: illo,
-    });
-
     const prism1 = new Prism(illo);
     prism1.group.copy();
+    prism1.group.translate.x = 20;
+    prism1.group.translate.y = 20;
 
     const prism2 = new Prism(illo);
     prism2.group.copy();
 
-    prism2.group.translate.x = 50;
+    prism2.group.translate.x = 70;
+    prism2.group.translate.y = 20;
 
     const box1 = new Zdog.Box({
       addTo: illo,
@@ -84,6 +83,8 @@ export class AppComponent implements OnInit {
       let progress = ticker / cycleCount;
       // apply easing to rotation
       let tween = Zdog.easeInOut(progress % 1, 3);
+      prism1.group.rotate.y = tween * Zdog.TAU;
+      prism2.group.rotate.x = tween * Zdog.TAU;
       box1.rotate.y = (tween * Zdog.TAU) / 2;
       cylinder.rotate.x = (tween * Zdog.TAU) / 2;
       box2.rotate.y = (tween * Zdog.TAU) / 2;

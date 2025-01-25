@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as Zdog from 'zdog';
+import { Prism } from './shapes';
 
 @Component({
   selector: 'app-root',
@@ -16,76 +17,17 @@ export class AppComponent implements OnInit {
       dragRotate: true,
     });
 
-    const prism = new Zdog.Group({
+    const anchor = new Zdog.Anchor({
       addTo: illo,
     });
 
-    const triangleFront = new Zdog.Shape({
-      addTo: prism,
-      stroke: false,
-      fill: true,
-      color: '#062970',
-      path: [{ x: 40 }, { y: 40 }, { x: 0 }],
-      translate: { z: 20 },
-    });
+    const prism1 = new Prism(illo);
+    prism1.group.copy();
 
-    const triangleBack = triangleFront.copy({
-      translate: { z: -20 },
-      color: '#062970',
-      addTo: prism,
-    });
+    const prism2 = new Prism(illo);
+    prism2.group.copy();
 
-    const triangleTop = new Zdog.Shape({
-      addTo: prism,
-      stroke: false,
-      fill: true,
-      color: '#f0f',
-      path: [
-        { x: 0, y: 0, z: -20 },
-        { x: 0, y: 0, z: 20 },
-        { x: 40, y: 0, z: 20 },
-        { x: 40, y: 0, z: -20 },
-      ],
-    });
-
-    const triangleLeft = new Zdog.Shape({
-      addTo: prism,
-      stroke: false,
-      fill: true,
-      color: '#007bff',
-      path: [
-        { x: 0, y: 0, z: -20 },
-        { x: 0, y: 0, z: 20 },
-        { x: 0, y: 40, z: 20 },
-        { x: 0, y: 40, z: -20 },
-      ],
-    });
-
-    const triangleRight = new Zdog.Shape({
-      addTo: prism,
-      stroke: false,
-      fill: true,
-      color: '#04da13',
-      path: [
-        { x: 40, y: 0, z: -20 },
-        { x: 40, y: 0, z: 20 },
-        { x: 0, y: 40, z: 20 },
-        { x: 0, y: 40, z: -20 },
-      ],
-    });
-
-    // const triangle2 = new Zdog.Shape({
-    //   addTo: illo,
-    //   path: [
-    //     { x: 40 }, // start at 1st point
-    //     { y: 40 }, // line to 2nd point
-    //     { x: 0 }, // line to 3rd point
-    //   ],
-    //   translate: { x: 50 },
-    //   stroke: false,
-    //   fill: true,
-    //   color: '#062970',
-    // });
+    prism2.group.translate.x = 50;
 
     const box1 = new Zdog.Box({
       addTo: illo,
